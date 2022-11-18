@@ -1,0 +1,12 @@
+.domain-x {
+    margin-top: 20px;
+}
+
+.domain-users .domain-user-item {
+    display: flex;
+}
+
+.domain-user-item .user-name {
+    margin: 0 20px;
+    width : 200px;
+}

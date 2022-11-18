@@ -1,0 +1,1 @@
+export const DOMAIN_PREFIX = 'domain_';

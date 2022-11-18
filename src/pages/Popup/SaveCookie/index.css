@@ -1,0 +1,12 @@
+.save-options {
+    display: flex;
+    margin : 10px;
+}
+
+.save-options .label {
+    padding: 0 10px;
+}
+
+.save-options .action {
+    padding: 0 10px;
+}

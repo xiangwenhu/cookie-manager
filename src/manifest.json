@@ -3,6 +3,27 @@
   "name": "cookie manager",
   "description": "管理cookie, 比如切换用户",
   "options_page": "options.html",
+  "event_rules": [
+    {
+      "event": "declarativeContent.onPageChanged",
+      "actions": [
+        {
+          "type": "declarativeContent.ShowPageAction"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "declarativeContent.PageStateMatcher",
+          "pageUrl": {
+            "schemes": [
+              "https",
+              "http"
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "background": {
     "service_worker": "background.bundle.js"
   },
@@ -43,7 +64,9 @@
     "tabs",
     "activeTab",
     "storage",
-    "\u003Call_urls\u003E"
+    "clipboardRead",
+    "clipboardWrite",
+    "declarativeContent"
   ],
   "host_permissions": [
     "http://*/*",

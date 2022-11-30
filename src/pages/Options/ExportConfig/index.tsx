@@ -2,6 +2,7 @@ import React from 'react';
 import './index.scss';
 import * as util from "../util";
 import { downloadFile } from '../../../util';
+import { Button, message } from "antd"
 
 interface Props {
 }
@@ -13,11 +14,13 @@ const ExportConfig: React.FC<Props> = ({ }: Props) => {
 
             downloadFile(JSON.stringify(list), "config.json");
 
+            message.success("导出成功");
+
         } catch (err: any) {
-            alert("导出失败:" + err.message);
+            message.error("导出失败:" + err.message);
         }
     }
-    return <button type="button" onClick={onExport}>导出配置</button>
+    return <Button type="primary" onClick={onExport}>导出配置</Button>
 
 };
 

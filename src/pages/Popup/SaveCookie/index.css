@@ -4,7 +4,8 @@
 }
 
 .save-options .label {
-    padding: 0 10px;
+    /* padding: 0 10px; */
+    align-self: center;
 }
 
 .save-options .action {

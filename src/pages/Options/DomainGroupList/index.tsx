@@ -4,7 +4,7 @@ import * as util from "../util";
 import DomainGroupCom from "../DomainGroup";
 import { DomainGroup, DomainUser } from "../types";
 import storage from "../../../util/storage"
-import { DOMAIN_PREFIX } from '../../../const';
+import { message } from "antd"
 
 interface Props {
 }
@@ -36,6 +36,8 @@ const DomainGroupList: React.FC<Props> = ({ }: Props) => {
             g.users.splice(index, 1);
             setGroupList([...groupList])
 
+            console.log("onDelete user", user, group);
+
             // 如果没有用户了，删除，否则，更新
             if (g.users.length === 0) {
                 const gIndex = groupList.findIndex(g => g.domain === group.domain);
@@ -46,11 +48,13 @@ const DomainGroupList: React.FC<Props> = ({ }: Props) => {
 
                 const res = await storage.removeItem(g.storeKey);
                 console.log("remove result:", res);
+                message.success("删除成功");
                 // chrome.storage.local.clear();
             } else {
                 storage.setItem({
                     [g.storeKey]: g.users
                 })
+                message.success("删除成功");
             }
 
         } catch (err: any) {
@@ -67,7 +71,6 @@ const DomainGroupList: React.FC<Props> = ({ }: Props) => {
 
 
     return <div className="">
-        <h2>账户管理：</h2>
         {renderGroupList()}
     </div>;
 };

@@ -3,6 +3,7 @@ import './index.scss';
 import * as util from "../util";
 import { readFileAsJSON } from '../../../util/file';
 import { dispatchCustomEvent } from '../../../util/dom';
+import { Button, message } from "antd"
 
 interface Props {
 }
@@ -20,7 +21,7 @@ const ExportConfig: React.FC<Props> = ({ }: Props) => {
             }
 
         } catch (err: any) {
-            alert("导出失败:" + err.message);
+            message.error("导出失败:" + err.message);
         }
     }
 
@@ -36,12 +37,14 @@ const ExportConfig: React.FC<Props> = ({ }: Props) => {
             await util.importConfig(config);
             dispatchCustomEvent("import-success", {})
 
+            message.success("导入成功");
+
         } catch (err: any) {
-            alert("导出失败：" + err.message)
+            message.error("导出失败：" + err.message)
         }
     }
     return <div className="import-x">
-        <button type="button" onClick={onExport}>导入配置</button>
+        <Button type="primary" onClick={onExport}>导入配置</Button>
         <input style={{
             visibility: 'hidden'
         }} type="file" ref={refFile} onChange={onFileChange}></input>

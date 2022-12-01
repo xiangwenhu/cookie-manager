@@ -4,7 +4,7 @@ import { getCookiesByTab } from '../../../util/cookie';
 import { addUser } from '../util';
 import { getDomainFromUrl } from '../../../util';
 import { dispatchCustomEvent } from '../../../util/dom';
-import { Button, Input, Col, Row } from 'antd';
+import { Button, Input, Col, Row, message } from 'antd';
 
 const SaveCookie = ({ curTab }) => {
   const [showSaveOpt, setShowSaveOpt] = useState(false);
@@ -15,11 +15,11 @@ const SaveCookie = ({ curTab }) => {
       // 获取当前页面的cookies
       const cookies = await getCookiesByTab(curTab);
       if (!cookies || !Array.isArray(cookies)) {
-        return alert('保存失败');
+        return message.error('保存失败');
       }
       const domain = getDomainFromUrl(curTab.url);
       if (!domain) {
-        return alert('获取域名失败');
+        return message.error('获取域名失败');
       }
       const user = {
         name: name.trim(),
@@ -33,7 +33,7 @@ const SaveCookie = ({ curTab }) => {
 
       dispatchCustomEvent('add-user-success');
     } catch (err) {
-      alert('保存失败，' + err.message);
+      message.error('保存失败，' + err.message);
     }
   };
 
@@ -76,7 +76,7 @@ const SaveCookie = ({ curTab }) => {
   }
 
   return (
-    <div className="container">
+    <div className="save-container">
       <Button type="primary" onClick={() => setShowSaveOpt(true)}>
         保存当前cookie
       </Button>

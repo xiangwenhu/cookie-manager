@@ -3,7 +3,7 @@ import './index.css';
 import { getUsers } from '../util';
 import { getDomainFromUrl } from '../../../util';
 import { deleteAll, setDetailsByTab } from '../../../util/cookie';
-import { Button, Table } from 'antd';
+import { Button, Table, message } from 'antd';
 
 const { Column } = Table;
 
@@ -48,9 +48,12 @@ const UserList = ({ curTab }) => {
           // windowId: window.id
         })
         .forEach((v) => v.close());
-      chrome.tabs.reload({});
+      // chrome.tabs.reload({});
+      // curTab.
+
+      chrome.tabs.reload(curTab.id);
     } catch (err) {
-      alert('切换用户失败：', err.message);
+      message.error('切换用户失败：', err.message);
     }
   };
 
@@ -81,11 +84,7 @@ const UserList = ({ curTab }) => {
   };
 
   console.log('users:', users);
-  return (
-    <div className="container-user">
-      {renderList()}
-    </div>
-  );
+  return <div className="container-user">{renderList()}</div>;
 };
 
 export default UserList;

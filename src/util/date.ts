@@ -1,4 +1,5 @@
 export function formatDateTime(date: number | Date | string = 0, time = true) {
+  console.log('formatDateTime');
   const d = new Date(date);
   const year = d.getFullYear();
   const month = zeroStart(d.getMonth() + 1);

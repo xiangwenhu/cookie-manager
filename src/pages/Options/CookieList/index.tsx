@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from 'react';
 import './index.scss';
 import { Table } from 'antd';
-import { formatDateTime } from '../../../util/date';
+import { formatExpirationDate } from '../util';
 
 const { Column } = Table;
 
@@ -26,7 +26,7 @@ const CookieList: React.FC<Props> = ({ list }: Props) => {
                 return <div title={text} className="ck-value">{text}</div>
             }}></Column>
             <Column title="域" dataIndex="domain"></Column>
-            <Column title="过期时间" dataIndex="expirationDate" render={text => formatDateTime(text)}></Column>
+            <Column title="过期时间" dataIndex="expirationDate" render={text => formatExpirationDate(text)}></Column>
             <Column title="path" dataIndex="path"></Column>
             <Column title="httpOnly" dataIndex="httpOnly" render={text => `${text}`}></Column>
             <Column title="secure" dataIndex="secure" render={text => `${text}`}></Column>

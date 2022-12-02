@@ -19,6 +19,7 @@ const CookieList: React.FC<Props> = ({ list }: Props) => {
                 hideOnSinglePage: true,
             }}
             rowKey={(record) => `${record.name}-${record.expirationDate}`}
+            className="ck-table"
         >
             <Column title="序号" render={(_text, _data, index) => index + 1} />
             <Column title="名字" dataIndex="name"></Column>

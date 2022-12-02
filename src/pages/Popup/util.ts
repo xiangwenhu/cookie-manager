@@ -1,10 +1,10 @@
 import { DOMAIN_PREFIX } from '../../const';
-import { getDomainFromUrl } from '../../util';
 import storage from '../../util/storage';
-import { getCurrentActiveTab, getTabByUrl } from '../../util/tab';
+import { getCurrentActiveTab, getTabById } from '../../util/tab';
 
 interface UserInfo {
   name: string;
+  updateTime: number;
   cookies: chrome.cookies.Cookie[];
 }
 
@@ -43,18 +43,15 @@ export async function addUser(user: UserInfo, domain: string) {
   await storage.setItem({ [domainKey]: users });
 }
 
-export async function getCurrentTab() {
+export async function getPageTab() {
   const href = location.href;
   console.log('getCurrentTab:', href);
 
   const sp = new URLSearchParams(location.search);
   const tabId = +(sp.get('id') || '');
-  const url = sp.get('url');
-  if (url) {
-    const tab = await getTabByUrl(url.split('#')[0]);
-    if (tab && tab.id! == tabId) {
-      return tab;
-    }
+  // const url = sp.get('url');
+  if (tabId) {
+    const tab = await getTabById(tabId);
     return tab;
   }
 

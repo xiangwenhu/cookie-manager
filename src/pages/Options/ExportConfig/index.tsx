@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './index.scss';
 import * as util from "../util";
 import { downloadFile } from '../../../util';
@@ -20,7 +20,9 @@ const ExportConfig: React.FC<Props> = ({ }: Props) => {
             message.error("导出失败:" + err.message);
         }
     }
-    return <Button type="primary" onClick={onExport}>导出配置</Button>
+    return <Fragment>
+        <Button type="primary" onClick={onExport}>导出配置</Button>
+    </Fragment>
 
 };
 

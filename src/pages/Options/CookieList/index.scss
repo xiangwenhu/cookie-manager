@@ -1,0 +1,13 @@
+.cookie-list-x {
+  .ck-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    white-space: nowrap;
+  }
+
+  .ck-table {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+}

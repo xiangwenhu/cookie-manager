@@ -24,6 +24,7 @@ const SaveCookie = ({ curTab }) => {
       const user = {
         name: name.trim(),
         cookies,
+        updateTime: Date.now(),
       };
       // 保存
       await addUser(user, domain);

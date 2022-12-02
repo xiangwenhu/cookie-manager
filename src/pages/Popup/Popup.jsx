@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './Popup.css';
 import SaveCookie from './SaveCookie';
 import UserList from './UserList';
-import { getCurrentTab } from './util';
+import { getPageTab } from './util';
 
 const Popup = () => {
   const [curTab, setCurTab] = useState(null);
 
   useEffect(() => {
     async function init() {
-      const tab = await getCurrentTab();
+      const tab = await getPageTab();
       setCurTab(tab);
     }
     init();

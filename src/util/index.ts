@@ -23,7 +23,7 @@ export function downloadFile(content: string | Blob, filename: string) {
   window.URL.revokeObjectURL(url);
 }
 
-export function showPopup(
+export async function showPopup(
   info: chrome.contextMenus.OnClickData,
   tab: chrome.tabs.Tab
 ) {
@@ -42,9 +42,7 @@ export function showPopup(
       for (var x = 0; x < tabList.length; x++) {
         var cTab = tabList[x];
         if (cTab.url!.endsWith(urlToOpen)) {
-          chrome.tabs.update(cTab.id!, {
-            selected: true,
-          });
+          chrome.tabs.update(cTab.id!, { active: true });
           return;
         }
       }

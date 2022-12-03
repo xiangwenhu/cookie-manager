@@ -1,9 +1,11 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import './index.css';
 import { DomainGroup, DomainUser } from "../types";
-import { Table, Button, Modal } from 'antd';
+import { Table, Button, Modal, message } from 'antd';
 import { formatDateTime } from '../../../util/date';
 import CookieList from '../CookieList';
+import { writeText } from '../../../util/clipboard';
+import { toJSONString } from '../../../util/cookie';
 
 const { Column } = Table;
 
@@ -20,6 +22,15 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
     const onViewDetail = (usr: DomainUser) => {
         setShowDetail(true);
         setSelectedUser(usr);
+    }
+
+    const onCopy = (usr: DomainUser) => {
+        try {
+            writeText(toJSONString(usr.cookies));
+            message.success("复制成功")
+        } catch (err) {
+            message.error("复制失败，请重试")
+        }
     }
 
     const renderDetail = () => {
@@ -62,6 +73,7 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
                             <Button danger onClick={() => onDelete(user, group)}>
                                 删除
                             </Button>
+                            <Button type='default' onClick={() => onCopy(user)}>复制</Button>
                         </Fragment>
                     );
                 }}

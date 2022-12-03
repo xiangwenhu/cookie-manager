@@ -52,7 +52,9 @@
     "clipboardRead",
     "clipboardWrite",
     "declarativeContent",
-    "contextMenus"
+    "contextMenus",
+    "clipboardRead",
+    "clipboardWrite"
   ],
   "host_permissions": ["http://*/*", "https://*/*"]
 }

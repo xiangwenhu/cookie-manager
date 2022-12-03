@@ -18,12 +18,16 @@ export async function groupCookies(): Promise<DomainGroup[]> {
   return groups;
 }
 
-export async function importConfig(config: DomainGroup[]): Promise<boolean> {
-  if (!config || !Array.isArray(config)) {
+export async function importDomainGroups(
+  domainGroups: DomainGroup[]
+): Promise<boolean> {
+  if (!domainGroups) {
     return false;
   }
-  for (let i = 0; i < config.length; i++) {
-    const group = config[i];
+  const groups = Array.isArray(domainGroups) ? domainGroups : [domainGroups];
+
+  for (let i = 0; i < groups.length; i++) {
+    const group = groups[i];
 
     try {
       await store.setItem({

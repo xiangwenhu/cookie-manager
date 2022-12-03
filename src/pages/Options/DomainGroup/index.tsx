@@ -2,10 +2,12 @@ import React, { useEffect, Fragment, useState } from 'react';
 import './index.css';
 import { DomainGroup, DomainUser } from "../types";
 import { Table, Button, Modal, message } from 'antd';
-import { formatDateTime } from '../../../util/date';
 import CookieList from '../CookieList';
+
+import { formatDateTime } from '../../../util/date';
 import { writeText } from '../../../util/clipboard';
 import { toJSONString } from '../../../util/cookie';
+import { downloadFile } from '../../..//util';
 
 const { Column } = Table;
 
@@ -30,6 +32,20 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
             message.success("复制成功")
         } catch (err) {
             message.error("复制失败，请重试")
+        }
+    }
+
+    const onExport = () => {
+        try {
+
+            if (!group) {
+                return;
+            }
+
+            downloadFile(JSON.stringify(group, undefined, "\t"), `${group.domain}.json`);
+            message.success("导出成功")
+        } catch (err) {
+            message.error("导出失败")
         }
     }
 
@@ -81,12 +97,12 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
         </Table>
     }
 
-
-
-
     return (
         <div className="domain-x">
-            <h3 className="domain-name">{group.domain}</h3>
+            <div className='domain-group'>
+                <h3 className="domain-name">{group.domain}</h3>
+                <Button className='btn-export-group' type='primary' onClick={onExport}>导出</Button>
+            </div>
             <div className="domain-users"> {renderUsers()}</div>
             {renderDetail()}
         </div>

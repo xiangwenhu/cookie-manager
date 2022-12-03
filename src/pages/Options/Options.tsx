@@ -1,8 +1,8 @@
 import React from 'react';
 import './Options.css';
 import DomainGroupList from "./DomainGroupList"
-import ExportConfig from "./ExportConfig";
-import ImportConfig from "./ImportConfig";
+import ExportDomainGroups from "./ExportDomainGroups";
+import ImportDomainGroups from "./ImportDomainGroups";
 import { Tabs, Divider } from "antd";
 
 interface Props {
@@ -15,9 +15,9 @@ const Options: React.FC<Props> = ({ }: Props) => {
         <DomainGroupList />
       </Tabs.TabPane>
       <Tabs.TabPane tab="导入导出" key="2">
-        <ExportConfig />
+        <ExportDomainGroups />
         <Divider />
-        <ImportConfig />
+        <ImportDomainGroups />
       </Tabs.TabPane>
     </Tabs>
   )

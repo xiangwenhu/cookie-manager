@@ -1,6 +1,6 @@
 import './contextMenu';
 
-console.log('cookie manager background js');
+// console.log('cookie manager background js');
 
 // manifest.json https://developer.chrome.com/docs/extensions/mv2/manifest/event_rules/
 // https://developer.chrome.com/docs/extensions/reference/action/#emulating-pageactions-with-declarativecontent

@@ -10,3 +10,15 @@
     margin: 0 20px;
     width : 200px;
 }
+
+.domain-x  .ant-table-tbody>tr>td{
+    padding: 8px 16px;
+}
+
+.domain-x .domain-name{
+    display: inline-block;
+}
+
+.domain-x .btn-export-group{
+    margin-left:  20px;
+}

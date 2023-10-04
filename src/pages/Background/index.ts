@@ -1,8 +1,8 @@
-console.log('This is the background page.');
-console.log('Put the background scripts here.');
+import './contextMenu';
 
+// console.log('cookie manager background js');
 
-// manifest.json https://developer.chrome.com/docs/extensions/mv2/manifest/event_rules/ 
+// manifest.json https://developer.chrome.com/docs/extensions/mv2/manifest/event_rules/
 // https://developer.chrome.com/docs/extensions/reference/action/#emulating-pageactions-with-declarativecontent
 // Wrap in an onInstalled callback in order to avoid unnecessary work
 // every time the background script is run

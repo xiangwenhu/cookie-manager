@@ -64,9 +64,9 @@
     "tabs",
     "activeTab",
     "storage",
-    "clipboardRead",
     "clipboardWrite",
-    "declarativeContent"
+    "declarativeContent",
+    "contextMenus"
   ],
   "host_permissions": [
     "http://*/*",

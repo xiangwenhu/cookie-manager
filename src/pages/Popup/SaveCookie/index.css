@@ -1,10 +1,17 @@
+.save-container{
+    padding: 10px 0;
+    text-align: center;
+}
+
+
 .save-options {
     display: flex;
     margin : 10px;
 }
 
 .save-options .label {
-    padding: 0 10px;
+    /* padding: 0 10px; */
+    align-self: center;
 }
 
 .save-options .action {

@@ -35,20 +35,20 @@ export default (props: Props) => {
         <Form onFinish={onFinish} initialValues={{
             domain: getDomainFromUrl(props.url) || ''
         }}>
-            <Form.Item name="name" required label="用户名" rules={[]}>
+            <Form.Item name="name" required label="用户名">
                 <Input />
             </Form.Item>
             <Form.Item label="域名" name="domain" required>
                 <Input />
             </Form.Item>
             <Form.Item name="cookies" required>
-                <TextArea cols={20} rows={12} ></TextArea>
+                <TextArea cols={20} rows={12} placeholder="请输入JSON格式的cookie数组"></TextArea>
             </Form.Item>
             <Form.Item style={{
                 textAlign: "center"
-            }}>
+            }} required>
                 <Button type="primary" htmlType="submit">保存</Button>
             </Form.Item>
-        </Form>
+        </Form >
     )
 }

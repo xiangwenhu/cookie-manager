@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(async () => {
   console.log('chrome.runtime.onInstalled');
   chrome.contextMenus.create({
     id: '__to__popup__',
-    title: '切换用户Cookie',
+    title: '切换|添加 Cookie',
     type: 'normal',
     contexts: ['page'],
   });

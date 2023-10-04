@@ -56,6 +56,7 @@ const UserList = ({ curTab }) => {
       await chrome.windows.update(curTab.windowId, { focused: true });
       chrome.tabs.reload(curTab.id);
     } catch (err) {
+      console.error('切换用户失败', err);
       message.error('切换用户失败：', err.message);
     }
   };

@@ -15,7 +15,10 @@
         {
           "type": "declarativeContent.PageStateMatcher",
           "pageUrl": {
-            "schemes": ["https", "http"]
+            "schemes": [
+              "https",
+              "http"
+            ]
           }
         }
       ]
@@ -33,14 +36,26 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
-      "js": ["contentScript.bundle.js"],
-      "css": ["content.styles.css"]
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
+      ],
+      "js": [
+        "contentScript.bundle.js"
+      ],
+      "css": [
+        "content.styles.css"
+      ]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["content.styles.css", "icon-128.png", "icon-34.png"],
+      "resources": [
+        "content.styles.css",
+        "icon-128.png",
+        "icon-34.png"
+      ],
       "matches": []
     }
   ],
@@ -49,12 +64,12 @@
     "tabs",
     "activeTab",
     "storage",
-    "clipboardRead",
     "clipboardWrite",
     "declarativeContent",
-    "contextMenus",
-    "clipboardRead",
-    "clipboardWrite"
+    "contextMenus"
   ],
-  "host_permissions": ["http://*/*", "https://*/*"]
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
 }

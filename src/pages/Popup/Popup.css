@@ -1,5 +1,9 @@
+body {
+    height: 600px;
+}
+
 .App {
-    width: 400px;
-    height: 400px;
+    width: 600px;
+    height: 580px;
     margin: auto;
 }

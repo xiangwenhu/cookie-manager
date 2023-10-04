@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './index.css';
 import { getCookiesByTab } from '../../../util/cookie';
 import { addUser } from '../util';
 import { getDomainFromUrl } from '../../../util';
 import { dispatchCustomEvent } from '../../../util/dom';
-import { Button, Input, Col, Row, message } from 'antd';
+import { Button, Input, Col, Row, message, Modal } from 'antd';
+import ImportUser from '../ImportUser';
 
 const SaveCookie = ({ curTab }) => {
   const [showSaveOpt, setShowSaveOpt] = useState(false);
   const [name, setName] = useState('');
+  const [showImport, setShowImport] = useState(false);
 
   const onSave = async function () {
     try {
@@ -36,6 +38,11 @@ const SaveCookie = ({ curTab }) => {
     } catch (err) {
       message.error('保存失败，' + err.message);
     }
+  };
+
+  const onImportSuccess = () => {
+    message.success('添加成功');
+    setShowImport(false);
   };
 
   const onCancel = function () {
@@ -81,7 +88,21 @@ const SaveCookie = ({ curTab }) => {
       <Button type="primary" onClick={() => setShowSaveOpt(true)}>
         保存当前cookie
       </Button>
+      <Button
+        type="primary"
+        onClick={() => setShowImport(true)}
+        style={{
+          marginLeft: '10px',
+        }}
+      >
+        导入用户cookie
+      </Button>
       {renderSaveOptions()}
+      {showImport ? (
+        <Modal open footer={null} onCancel={() => setShowImport(false)}>
+          <ImportUser onSuccess={onImportSuccess} url={curTab.url} />
+        </Modal>
+      ) : null}
     </div>
   );
 };

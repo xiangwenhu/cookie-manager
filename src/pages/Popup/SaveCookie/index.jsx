@@ -25,7 +25,8 @@ const SaveCookie = ({ curTab }) => {
       }
       const user = {
         name: name.trim(),
-        cookies: cookies.filter((ck) => !!ck.expirationDate),
+        // cookies: cookies.filter((ck) => !!ck.expirationDate),
+        cookies,
         updateTime: Date.now(),
       };
       // 保存

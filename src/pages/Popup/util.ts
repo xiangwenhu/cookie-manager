@@ -13,13 +13,29 @@ interface UserInfo {
  * @param domain
  * @returns
  */
-export async function getUsers(domain: string) {
+export async function getUsers(domain: string): Promise<any[]> {
   // 通过当前页面地址获取 domain
   const domainKey = `${DOMAIN_PREFIX}${domain}`;
   // 查询当前域下的用户
   let users = ((await storage.getItem([domainKey])) || {})[domainKey] || [];
   console.log('users:', users);
   return users;
+}
+
+
+export async function removeUser(domain: string, userName: string) {
+  const users = await getUsers(domain);
+  // 如果有，更新当前用户
+  const index = users.findIndex(
+    (u: UserInfo) => (u.name || '').trim() === userName.trim()
+  );
+
+  if (index > -1) users.splice(index, 1)
+
+
+  const domainKey = `${DOMAIN_PREFIX}${domain}`;
+  // 保存
+  await storage.setItem({ [domainKey]: users });
 }
 
 /**

@@ -1,9 +1,9 @@
 body {
-    height: 600px;
+    /* height: 600px; */
 }
 
 .App {
     width: 600px;
-    height: 580px;
+    height: 500px;
     margin: auto;
 }

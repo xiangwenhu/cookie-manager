@@ -10,6 +10,12 @@ interface Props {
     url: string;
 };
 
+const styles: Record<"formItem", React.CSSProperties> = {
+    formItem: {
+        marginBottom: '12px'
+    }
+}
+
 
 export default (props: Props) => {
 
@@ -34,21 +40,39 @@ export default (props: Props) => {
     return (
         <Form onFinish={onFinish} initialValues={{
             domain: getDomainFromUrl(props.url) || ''
+        }} labelCol={{
+            span: 4
+        }} wrapperCol={{
+            span: 16
         }}>
-            <Form.Item name="name" required label="用户名" rules={[]}>
+            <Form.Item name="name" required label="用户名" style={styles.formItem} rules={[{
+                required: true,
+                type: "string",
+                message: "用户名不能为空"
+            }]}>
                 <Input />
             </Form.Item>
-            <Form.Item label="域名" name="domain" required>
+            <Form.Item label="域名" name="domain" required style={styles.formItem} rules={[{
+                required: true,
+                type: "string",
+                message: "域名不能为空"
+            }]}>
                 <Input />
             </Form.Item>
-            <Form.Item name="cookies" required>
-                <TextArea cols={20} rows={12} ></TextArea>
+            <Form.Item name="cookies" required label="cookies" style={styles.formItem} rules={[{
+                required: true,
+                type: "string",
+                message: "cookies不能为空"
+            }]}>
+                <TextArea cols={20} rows={12} placeholder="请输入JSON格式的cookie数组"></TextArea>
             </Form.Item>
             <Form.Item style={{
                 textAlign: "center"
+            }} wrapperCol={{
+                span: 24
             }}>
                 <Button type="primary" htmlType="submit">保存</Button>
             </Form.Item>
-        </Form>
+        </Form >
     )
 }

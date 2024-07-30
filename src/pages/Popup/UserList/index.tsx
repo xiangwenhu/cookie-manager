@@ -5,7 +5,7 @@ import { getDomainFromUrl } from '../../../util';
 import { formatDateTime } from '../../../util/date';
 
 import { deleteAll, setDetailsByTab, toJSONString } from '../../../util/cookie';
-import { Button, Table, message } from 'antd';
+import { Button, Popconfirm, Table, message } from 'antd';
 import { DomainUser } from '../../Options/types';
 import { writeText } from '../../../util/clipboard';
 
@@ -113,10 +113,17 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
                 <Button type='primary' onClick={() => onCopy(data)} style={{
                   marginLeft: "10px"
                 }}>复制</Button>
+                <Popconfirm
+                  title="确认删除该用户吗？"
+                  onConfirm={() => onDelete(data)}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <Button danger style={{
+                    marginLeft: "10px"
+                  }}>删除</Button>
+                </Popconfirm>
 
-                <Button danger onClick={() => onDelete(data)} style={{
-                  marginLeft: "10px"
-                }}>删除</Button>
               </>
             );
           }}

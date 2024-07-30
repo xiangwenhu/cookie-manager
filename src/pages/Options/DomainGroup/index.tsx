@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import './index.css';
 import { DomainGroup, DomainUser } from "../types";
-import { Table, Button, Modal, message } from 'antd';
+import { Table, Button, Modal, message, Popconfirm } from 'antd';
 import CookieList from '../CookieList';
 
 import { formatDateTime } from '../../../util/date';
@@ -10,6 +10,12 @@ import { toJSONString } from '../../../util/cookie';
 import { downloadFile } from '../../..//util';
 
 const { Column } = Table;
+
+const styles = {
+    buttonStyle: {
+        marginLeft: "10px"
+    }
+}
 
 interface Props {
     group: DomainGroup,
@@ -86,10 +92,17 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
                             <Button type="default" onClick={() => onViewDetail(user)}>
                                 详情
                             </Button>
-                            <Button danger onClick={() => onDelete(user, group)}>
-                                删除
-                            </Button>
-                            <Button type='default' onClick={() => onCopy(user)}>复制</Button>
+
+                            <Popconfirm
+                                title="确认删除该用户吗？"
+                                onConfirm={() => onDelete(user, group)}
+                                okText="确认"
+                                cancelText="取消"
+                            >
+                                <Button danger style={styles.buttonStyle}>删除</Button>
+                            </Popconfirm>
+
+                            <Button type='default' onClick={() => onCopy(user)} style={styles.buttonStyle}>复制</Button>
                         </Fragment>
                     );
                 }}

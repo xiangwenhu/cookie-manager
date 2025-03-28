@@ -43,7 +43,7 @@ export async function removeUser(domain: string, userName: string) {
  * @param domain
  * @param user
  */
-export async function addUser(user: UserInfo, domain: string) {
+export async function addOrUpdateUser(user: UserInfo, domain: string) {
   const users = await getUsers(domain);
   // 如果有，更新当前用户
   const index = users.findIndex(

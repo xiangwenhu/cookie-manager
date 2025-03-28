@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import './index.css';
 import { getUsers, removeUser } from '../util';
 import { getDomainFromUrl } from '../../../util';
@@ -14,12 +14,12 @@ const { Column } = Table;
 const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
   const [users, setUsers] = useState<any[]>([]);
 
-  const getUsersFromTab = async () => {
+  const getUsersFromTab = useCallback(async () => {
     console.log('UserList:getDomainFromUrl');
     const domain = getDomainFromUrl(curTab.url!);
     const users = await getUsers(domain!);
     setUsers(users);
-  };
+  }, [curTab.url]);
 
   useEffect(() => {
     function onAddUser() {
@@ -27,7 +27,7 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
     }
     window.addEventListener('add-user-success', onAddUser);
     return () => window.removeEventListener('add-user-success', onAddUser);
-  }, [curTab]);
+  }, [curTab, getUsersFromTab]);
 
   useEffect(() => {
     async function init() {
@@ -37,12 +37,15 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
       getUsersFromTab();
     }
     init();
-  }, [curTab]);
+  }, [curTab, getUsersFromTab]);
 
   const onSelect = async function (user: DomainUser) {
     try {
       const cookies = user.cookies;
-      await deleteAll(cookies as unknown as chrome.cookies.SetDetails[], curTab.url!);
+      await deleteAll(
+        cookies as unknown as chrome.cookies.SetDetails[],
+        curTab.url!
+      );
       await setDetailsByTab(cookies, curTab);
 
       chrome.extension
@@ -66,22 +69,22 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
   const onCopy = (usr: DomainUser) => {
     try {
       writeText(toJSONString(usr.cookies));
-      message.success("复制成功")
+      message.success('复制成功');
     } catch (err) {
-      message.error("复制失败，请重试")
+      message.error('复制失败，请重试');
     }
-  }
+  };
 
   const onDelete = async (usr: DomainUser) => {
     try {
       const domain = getDomainFromUrl(curTab.url!);
       await removeUser(domain!, usr.name);
       getUsersFromTab();
-      message.success("删除成功");
+      message.success('删除成功');
     } catch (err) {
-      message.error("删除失败，请重试")
+      message.error('删除失败，请重试');
     }
-  }
+  };
 
   const renderList = () => {
     return (
@@ -110,20 +113,30 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
                 <Button type="primary" onClick={() => onSelect(data)}>
                   切换
                 </Button>
-                <Button type='primary' onClick={() => onCopy(data)} style={{
-                  marginLeft: "10px"
-                }}>复制</Button>
+                <Button
+                  type="primary"
+                  onClick={() => onCopy(data)}
+                  style={{
+                    marginLeft: '10px',
+                  }}
+                >
+                  复制
+                </Button>
                 <Popconfirm
                   title="确认删除该用户吗？"
                   onConfirm={() => onDelete(data)}
                   okText="确认"
                   cancelText="取消"
                 >
-                  <Button danger style={{
-                    marginLeft: "10px"
-                  }}>删除</Button>
+                  <Button
+                    danger
+                    style={{
+                      marginLeft: '10px',
+                    }}
+                  >
+                    删除
+                  </Button>
                 </Popconfirm>
-
               </>
             );
           }}
@@ -134,6 +147,6 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
 
   console.log('users:', users);
   return <div className="container-user">{renderList()}</div>;
-}
+};
 
-export default UserList
+export default UserList;

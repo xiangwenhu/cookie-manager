@@ -1,7 +1,7 @@
 {
   "name": "cookie-manager",
   "version": "0.0.1",
-  "description": "cookie存储和切换",
+  "description": "cookie存储,切换,导入和导出等",
   "license": "MIT",
   "repository": {
     "type": "git",

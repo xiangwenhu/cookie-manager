@@ -27,7 +27,7 @@ export async function getTabByUrl(url: string) {
 }
 
 /**
- * 通过tabI获取tab
+ * 通过tabId获取tab
  * @param tabId
  * @returns
  */

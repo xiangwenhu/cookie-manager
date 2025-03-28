@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import './index.css';
 import { getCookiesByTab } from '../../../util/cookie';
-import { addUser } from '../util';
+import { addOrUpdateUser } from '../util';
 import { getDomainFromUrl } from '../../../util';
 import { dispatchCustomEvent } from '../../../util/dom';
 import { Button, Input, Col, Row, message, Modal } from 'antd';
@@ -25,7 +25,7 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
       }
 
       const rName = name.trim();
-      if (rName.length === 0) return message.error("用户名不能为空");
+      if (rName.length === 0) return message.error('用户名不能为空');
 
       const user = {
         name: rName,
@@ -34,7 +34,7 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
         updateTime: Date.now(),
       };
       // 保存
-      await addUser(user, domain);
+      await addOrUpdateUser(user, domain);
 
       console.log('cookies:', cookies);
       setShowSaveOpt(false);
@@ -67,19 +67,24 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
           </Col>
           <Col className="field" span={9}>
             <Input
-              maxLength={10}
+              maxLength={50}
               type="name"
               onChange={(ev) => setName(ev.target.value)}
               value={name}
             ></Input>
           </Col>
           <Col className="action" span={8}>
-            <Button type="primary" className="btn-save" onClick={onSave} >
+            <Button type="primary" className="btn-save" onClick={onSave}>
               保存
             </Button>
-            <Button onClick={onCancel} style={{
-              marginLeft: '6px'
-            }}>取消</Button>
+            <Button
+              onClick={onCancel}
+              style={{
+                marginLeft: '6px',
+              }}
+            >
+              取消
+            </Button>
           </Col>
         </Row>
       </div>
@@ -106,9 +111,14 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
       </Button>
       {renderSaveOptions()}
       {showImport ? (
-        <Modal open footer={null} onCancel={() => setShowImport(false)} style={{
-          top: '12px'
-        }}>
+        <Modal
+          open
+          footer={null}
+          onCancel={() => setShowImport(false)}
+          style={{
+            top: '12px',
+          }}
+        >
           <ImportUser onSuccess={onImportSuccess} url={curTab.url!} />
         </Modal>
       ) : null}

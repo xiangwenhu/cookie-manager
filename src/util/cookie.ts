@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { getCurrentActiveTab } from './tab';
 
 /**
@@ -54,7 +55,11 @@ export async function getCookiesByTab(tab: chrome.tabs.Tab) {
 export async function setDetails(details: chrome.cookies.SetDetails[]) {
   for (let i = 0; i < details.length; i++) {
     const detail = details[i];
-    await chrome.cookies.set(detail);
+    try {
+      await chrome.cookies.set(detail);
+    } catch (err: any) {
+      message.warning(`键为${detail.name}的cookie设置失败`, 3000);
+    }
   }
 }
 
@@ -63,7 +68,7 @@ function buildUrl(domain: string, path: string, searchUrl: string) {
   // This fixes a bug when we want to unset 'secure' property in an https domain
   var secure = searchUrl.indexOf('https://') === 0;
 
-  if (domain.substr(0, 1) === '.') domain = domain.substring(1);
+  if (domain.substring(0, 1) === '.') domain = domain.substring(1);
 
   return 'http' + (secure ? 's' : '') + '://' + domain + path;
 }

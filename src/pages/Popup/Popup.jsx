@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import './Popup.css';
 import SaveCookie from './SaveCookie';
 import UserList from './UserList';
@@ -6,6 +6,8 @@ import { getPageTab } from './util';
 
 const Popup = () => {
   const [curTab, setCurTab] = useState(null);
+
+  // const context = createContext < {} > {};
 
   useEffect(() => {
     async function init() {

@@ -21,7 +21,7 @@ const ExportConfig: React.FC<Props> = ({ }: Props) => {
             }
 
         } catch (err: any) {
-            message.error("导出失败:" + err.message);
+            message.error(`导出失败: ${err?.message}`);
         }
     }
 
@@ -41,7 +41,7 @@ const ExportConfig: React.FC<Props> = ({ }: Props) => {
             message.success("导入成功");
 
         } catch (err: any) {
-            message.error("导出失败：" + err.message)
+            message.error(`导出失败: ${err?.message}`);
         }
     }
     return <div className="import-x">

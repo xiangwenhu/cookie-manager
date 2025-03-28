@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import './index.css';
-import { getCookiesByTab } from '../../../util/cookie';
-import { addOrUpdateUser } from '../util';
-import { getDomainFromUrl } from '../../../util';
+import { Button, Col, Input, message, Modal, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { dispatchCustomEvent } from '../../../util/dom';
-import { Button, Input, Col, Row, message, Modal } from 'antd';
+import { DomainUser } from '../../Options/types';
 import ImportUser from '../ImportUser';
+import { saveCookieByTabAndName } from '../util';
+import './index.css';
 
 const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
   const [showSaveOpt, setShowSaveOpt] = useState(false);
@@ -14,34 +13,13 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
 
   const onSave = async function () {
     try {
-      // 获取当前页面的cookies
-      const cookies = await getCookiesByTab(curTab);
-      if (!cookies || !Array.isArray(cookies)) {
-        return message.error('获取cookies失败');
-      }
-      const domain = getDomainFromUrl(curTab.url!);
-      if (!domain) {
-        return message.error('获取域名失败');
-      }
 
-      const rName = name.trim();
-      if (rName.length === 0) return message.error('用户名不能为空');
-
-      const user = {
-        name: rName,
-        // cookies: cookies.filter((ck) => !!ck.expirationDate),
-        cookies,
-        updateTime: Date.now(),
-      };
-      // 保存
-      await addOrUpdateUser(user, domain);
-
-      console.log('cookies:', cookies);
+      await saveCookieByTabAndName(curTab, name);
       setShowSaveOpt(false);
 
-      dispatchCustomEvent('add-user-success');
+      dispatchCustomEvent('refresh-users');
     } catch (err: any) {
-      message.error('保存失败，' + err.message);
+      message.error(`保存失败: ${err?.message}`);
     }
   };
 
@@ -68,7 +46,7 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
           <Col className="field" span={9}>
             <Input
               maxLength={50}
-              type="name"
+              placeholder='输入名字, 名字存在会覆盖！'
               onChange={(ev) => setName(ev.target.value)}
               value={name}
             ></Input>

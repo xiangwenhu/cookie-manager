@@ -58,7 +58,7 @@ const DomainGroupList: React.FC<Props> = ({ }: Props) => {
             }
 
         } catch (err: any) {
-            message.error("删除失败:" + err.message);
+            message.error(`删除失败: ${err?.message}`);
         }
     }
 

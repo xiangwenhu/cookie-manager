@@ -28,10 +28,10 @@ export default function ImportUser(props: Props) {
       };
       // 保存
       await addOrUpdateUser(user, values.domain);
-      dispatchCustomEvent('add-user-success');
+      dispatchCustomEvent('refresh-users');
       props.onSuccess();
     } catch (err: any) {
-      message.error('添加失败，' + (err && err.message));
+      message.error(`添加失败: ${err?.message}`);
     }
   };
 

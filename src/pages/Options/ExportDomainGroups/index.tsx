@@ -17,7 +17,7 @@ const ExportConfig: React.FC<Props> = ({ }: Props) => {
             message.success("导出成功");
 
         } catch (err: any) {
-            message.error("导出失败:" + err.message);
+            message.error(`导出失败:: ${err?.message}`);
         }
     }
     return <Fragment>

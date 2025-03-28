@@ -174,5 +174,3 @@ export function toJSONString(cookies: chrome.cookies.Cookie[]) {
   string += '\n]';
   return string;
 }
-
-

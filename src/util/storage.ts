@@ -13,3 +13,9 @@ export function removeItem(keys: string | string[]) {
     return chrome.storage.local.remove(keys)
 }
 
+
+export default {
+    setItem,
+    getItem,
+    removeItem
+}

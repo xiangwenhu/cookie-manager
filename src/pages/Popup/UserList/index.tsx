@@ -1,13 +1,14 @@
-import React, { useState, useEffect, Fragment, useCallback } from 'react';
-import './index.css';
-import { getUsers, removeUser } from '../util';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getDomainFromUrl } from '../../../util';
 import { formatDateTime } from '../../../util/date';
+import { getUsers, removeUser, saveCookieByTabAndName } from '../util';
+import './index.css';
 
-import { deleteAll, setDetailsByTab, toJSONString } from '../../../util/cookie';
 import { Button, Popconfirm, Table, message } from 'antd';
-import { DomainUser } from '../../Options/types';
 import { writeText } from '../../../util/clipboard';
+import { deleteAll, setDetailsByTab, toJSONString } from '../../../util/cookie';
+import { dispatchCustomEvent } from '../../../util/dom';
+import { DomainUser } from '../../Options/types';
 
 const { Column } = Table;
 
@@ -22,11 +23,11 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
   }, [curTab.url]);
 
   useEffect(() => {
-    function onAddUser() {
+    function onFresh() {
       getUsersFromTab();
     }
-    window.addEventListener('add-user-success', onAddUser);
-    return () => window.removeEventListener('add-user-success', onAddUser);
+    window.addEventListener('refresh-users', onFresh);
+    return () => window.removeEventListener('refresh-users', onFresh);
   }, [curTab, getUsersFromTab]);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
       chrome.tabs.reload(curTab.id!);
     } catch (err: any) {
       console.error('切换用户失败', err);
-      message.error('切换用户失败：', err.message);
+      message.error(`切换用户失败: ${err?.message}`);
     }
   };
 
@@ -86,6 +87,16 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
     }
   };
 
+  const onUpdate = async (usr: DomainUser) => {
+    try {
+      await saveCookieByTabAndName(curTab, usr.name);
+      getUsersFromTab();
+      message.success("更新成功")
+    } catch (err: any) {
+      message.error(`保存失败: ${err?.message}`);
+    }
+  }
+
   const renderList = () => {
     return (
       <Table
@@ -97,7 +108,7 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
         rowKey="name"
       >
         <Column title="序号" render={(_text, _data, index) => index + 1} />
-        <Column title="用户" dataIndex="name"></Column>
+        <Column width={150} title="用户" dataIndex="name" className='break' />
         <Column
           width={120}
           title="更新时间"
@@ -122,6 +133,23 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
                 >
                   复制
                 </Button>
+
+                <Popconfirm
+                  title="确认更新cookie到当前用户？"
+                  onConfirm={() => onUpdate(data)}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <Button
+                    type="primary"
+                    style={{
+                      marginLeft: '10px',
+                    }}
+                    title='更新当前cookie到此用户'
+                  >
+                    更新
+                  </Button>
+                </Popconfirm>
                 <Popconfirm
                   title="确认删除该用户吗？"
                   onConfirm={() => onDelete(data)}
@@ -141,7 +169,7 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
             );
           }}
         ></Column>
-      </Table>
+      </Table >
     );
   };
 

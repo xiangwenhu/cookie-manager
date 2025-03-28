@@ -1,6 +1,9 @@
+import { message } from 'antd';
 import { DOMAIN_PREFIX } from '../../const';
+import { getCookiesByTab } from '../../util/cookie';
 import storage from '../../util/storage';
 import { getCurrentActiveTab, getTabById } from '../../util/tab';
+import { getDomainFromUrl } from '../../util';
 
 interface UserInfo {
   name: string;
@@ -72,4 +75,32 @@ export async function getPageTab() {
   }
 
   return getCurrentActiveTab();
+}
+
+
+export async function saveCookieByTabAndName(tab: chrome.tabs.Tab, name: string) {
+
+  // 获取当前页面的cookies
+  const cookies = await getCookiesByTab(tab);
+  if (!cookies || !Array.isArray(cookies)) {
+    return message.error('获取cookies失败');
+  }
+  const domain = getDomainFromUrl(tab.url!);
+  if (!domain) {
+    return message.error('获取域名失败');
+  }
+
+  const rName = name.trim();
+  if (rName.length === 0) return message.error('用户名不能为空');
+
+  const user = {
+    name: rName,
+    // cookies: cookies.filter((ck) => !!ck.expirationDate),
+    cookies,
+    updateTime: Date.now(),
+  };
+  // 保存
+  await addOrUpdateUser(user, domain);
+
+  console.log('cookies:', cookies);
 }

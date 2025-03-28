@@ -50,8 +50,8 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
 
             downloadFile(JSON.stringify(group, undefined, "\t"), `${group.domain}.json`);
             message.success("导出成功")
-        } catch (err) {
-            message.error("导出失败")
+        } catch (err: any) {
+            message.error(`导出失败: ${err?.message}`);
         }
     }
 

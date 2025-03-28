@@ -1,9 +1,19 @@
 body {
-    /* height: 600px; */
+  /* height: 600px; */
 }
 
 .App {
-    width: 600px;
-    height: 500px;
-    margin: auto;
+  width: 666px;
+  height: 500px;
+  margin: auto;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.break {
+  word-break: break-all;
 }

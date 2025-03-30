@@ -1,7 +1,8 @@
 
 export interface DomainUser {
     name: string;
-    cookies: chrome.cookies.Cookie[]
+    cookies: chrome.cookies.Cookie[];
+    updateTime: number;
 }
 
 

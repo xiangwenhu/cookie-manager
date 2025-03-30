@@ -61,7 +61,8 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
         }
 
         return <Modal open={showDetail}
-            width="80%"
+            title={`cookie列表(${user.name})`}
+            width="90%"
             onOk={() => setShowDetail(false)}
             onCancel={() => setShowDetail(false)}>
             <CookieList list={user?.cookies} />
@@ -79,6 +80,9 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
         >
             <Column width={100} title="序号" render={(_text, _data, index) => index + 1} />
             <Column width={120} title="用户" dataIndex="name"></Column>
+            <Column width={120} title="键数量" dataIndex="cookies" render={
+                (cookies) => (cookies || []).length
+            }></Column>
             <Column width={120} title="更新时间" dataIndex="updateTime" render={
                 (text) => formatDateTime(text || 0)
             }></Column>

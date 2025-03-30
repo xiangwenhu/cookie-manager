@@ -43,6 +43,7 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
   const onSelect = async function (user: DomainUser) {
     try {
       const cookies = user.cookies;
+      console.log("onSelect");
       await deleteAll(
         cookies as unknown as chrome.cookies.SetDetails[],
         curTab.url!

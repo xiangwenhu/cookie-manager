@@ -13,7 +13,6 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
 
   const onSave = async function () {
     try {
-
       await saveCookieByTabAndName(curTab, name);
       setShowSaveOpt(false);
 

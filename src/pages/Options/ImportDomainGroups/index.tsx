@@ -36,7 +36,7 @@ const ExportConfig: React.FC<Props> = ({ }: Props) => {
             const domainGroups = await readFileAsJSON(file);
 
             await util.importDomainGroups(domainGroups);
-            dispatchCustomEvent("import-success", {})
+            dispatchCustomEvent("refresh-cookie-groups", {})
 
             message.success("导入成功");
 

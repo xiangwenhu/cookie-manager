@@ -20,8 +20,8 @@ const DomainGroupList: React.FC<Props> = ({ }: Props) => {
         };
         init();
 
-        window.addEventListener("import-success", init);
-        return () => window.removeEventListener("import-success", init);
+        window.addEventListener("refresh-cookie-groups", init);
+        return () => window.removeEventListener("refresh-cookie-groups", init);
 
     }, []);
 

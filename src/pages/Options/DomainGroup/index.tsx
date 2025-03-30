@@ -2,12 +2,14 @@ import React, { useEffect, Fragment, useState } from 'react';
 import './index.css';
 import { DomainGroup, DomainUser } from "../types";
 import { Table, Button, Modal, message, Popconfirm } from 'antd';
-import CookieList from '../CookieList';
+import CookieList from '../UserCookie';
 
 import { formatDateTime } from '../../../util/date';
 import { writeText } from '../../../util/clipboard';
 import { toJSONString } from '../../../util/cookie';
 import { downloadFile } from '../../..//util';
+import { addOrUpdateUser } from '../../Popup/util';
+import { dispatchCustomEvent } from '../../../util/dom';
 
 const { Column } = Table;
 
@@ -41,6 +43,8 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
         }
     }
 
+
+
     const onExport = () => {
         try {
 
@@ -55,19 +59,19 @@ const DomainGroup: React.FC<Props> = ({ group, onDelete }: Props) => {
         }
     }
 
+
+
     const renderDetail = () => {
         if (!showDetail || !user) {
             return null;
         }
 
-        return <Modal open={showDetail}
-            title={`cookie列表(${user.name})`}
-            width="90%"
-            onOk={() => setShowDetail(false)}
-            onCancel={() => setShowDetail(false)}>
-            <CookieList list={user?.cookies} />
-        </Modal>
+        return <CookieList group={group} user={user} onCancel={() => setShowDetail(false)} onOk={() => {
+            setShowDetail(false);
+            dispatchCustomEvent("refresh-cookie-groups", {})
+        }} />
     }
+
 
     const renderUsers = () => {
         return <Table

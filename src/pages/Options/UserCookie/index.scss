@@ -33,4 +33,8 @@
     -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
     background-color: #555;
   }
+
+  .point-event-none {
+    pointer-events: none;
+  }
 }

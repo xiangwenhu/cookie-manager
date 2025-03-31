@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react';
 import './Popup.css';
-import SaveCookie from './SaveCookie';
+import ManageCookie from './ManageCookie';
 import UserList from './UserList';
 import { getPageTab } from './util';
 
@@ -23,7 +23,7 @@ const Popup = () => {
 
   return (
     <div className="App">
-      <SaveCookie curTab={curTab} />
+      <ManageCookie curTab={curTab} />
       {/* <Divider /> */}
       <UserList curTab={curTab} />
     </div>

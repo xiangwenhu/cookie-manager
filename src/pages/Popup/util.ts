@@ -4,11 +4,12 @@ import { getCookiesByTab } from '../../util/cookie';
 import storage from '../../util/storage';
 import { getCurrentActiveTab, getTabById } from '../../util/tab';
 import { getDomainFromUrl } from '../../util';
+import { CookieItem } from '../Options/types';
 
 interface UserInfo {
   name: string;
   updateTime: number;
-  cookies: chrome.cookies.Cookie[];
+  cookies: CookieItem[];
 }
 
 /**
@@ -63,10 +64,10 @@ export async function addOrUpdateUser(user: UserInfo, domain: string) {
 }
 
 export async function getPageTab() {
-  const href = location.href;
+  const href = window.location.href;
   console.log('getCurrentTab:', href);
 
-  const sp = new URLSearchParams(location.search);
+  const sp = new URLSearchParams(window.location.search);
   const tabId = +(sp.get('id') || '');
   // const url = sp.get('url');
   if (tabId) {

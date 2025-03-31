@@ -42,8 +42,9 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
 
   const onSelect = async function (user: DomainUser) {
     try {
+      debugger;
       const cookies = user.cookies;
-      console.log("onSelect");
+      console.log('onSelect');
       await deleteAll(
         cookies as unknown as chrome.cookies.SetDetails[],
         curTab.url!
@@ -92,11 +93,11 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
     try {
       await saveCookieByTabAndName(curTab, usr.name);
       getUsersFromTab();
-      message.success("更新成功")
+      message.success('更新成功');
     } catch (err: any) {
       message.error(`保存失败: ${err?.message}`);
     }
-  }
+  };
 
   const renderList = () => {
     return (
@@ -109,7 +110,7 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
         rowKey="name"
       >
         <Column title="序号" render={(_text, _data, index) => index + 1} />
-        <Column width={150} title="用户" dataIndex="name" className='break' />
+        <Column width={150} title="用户" dataIndex="name" className="break" />
         <Column
           width={120}
           title="更新时间"
@@ -146,7 +147,7 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
                     style={{
                       marginLeft: '10px',
                     }}
-                    title='更新当前cookie到此用户'
+                    title="更新当前cookie到此用户"
                   >
                     更新
                   </Button>
@@ -170,7 +171,7 @@ const UserList = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
             );
           }}
         ></Column>
-      </Table >
+      </Table>
     );
   };
 

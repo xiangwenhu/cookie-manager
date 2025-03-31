@@ -13,21 +13,20 @@ import {
 import { useForm } from 'antd/es/form/Form';
 import dayjs from 'dayjs';
 import SameSiteSelect from '../SameSiteSelect';
-
-type Cookie = chrome.cookies.Cookie;
+import { CookieItem } from '../../pages/Options/types';
 
 interface Props {
-  item: Cookie;
-  onSave(item: Cookie): void;
+  item: CookieItem;
+  onSave(item: CookieItem): void;
   onCancel(): void;
 }
 
-interface FormData extends Omit<Cookie, 'expirationDate'> {
+interface FormData extends Omit<CookieItem, 'expirationDate'> {
   expirationDate: dayjs.Dayjs | undefined;
 }
 
 const transfer = {
-  toCookieData(data: FormData): Cookie {
+  toCookieData(data: FormData): CookieItem {
     return {
       ...data,
       expirationDate: data.session
@@ -44,7 +43,7 @@ const transfer = {
           : data.partitionKey,
     };
   },
-  toFormData(data: Cookie): FormData {
+  toFormData(data: CookieItem): FormData {
     return {
       ...data,
       expirationDate: data.expirationDate

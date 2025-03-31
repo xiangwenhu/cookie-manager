@@ -1,18 +1,22 @@
 import React from 'react';
 import { SameSiteList } from '../const';
 import { Select } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 
 interface Props {
-  onChange?(value: any): any;
-  defaultValue?: string;
+  onChange?(value: DefaultOptionType): any;
+  // defaultValue?: string;
+  value?: DefaultOptionType;
 }
 
-const SameSiteSelect: React.FC<Props> = ({ onChange, defaultValue }) => {
+const SameSiteSelect: React.FC<Props> = ({ onChange, value }) => {
   return (
     <Select
       options={SameSiteList}
       onChange={onChange}
-      defaultValue={defaultValue}
+      defaultValue={value}
+      value={value}
+      // defaultValue={defaultValue}
     ></Select>
   );
 };

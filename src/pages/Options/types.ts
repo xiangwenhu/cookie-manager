@@ -1,7 +1,9 @@
 
+export type CookieItem = Omit<chrome.cookies.Cookie, "storeId">;
+
 export interface DomainUser {
     name: string;
-    cookies: chrome.cookies.Cookie[];
+    cookies: CookieItem[];
     updateTime: number;
 }
 

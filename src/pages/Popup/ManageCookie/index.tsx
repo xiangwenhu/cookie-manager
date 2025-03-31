@@ -1,4 +1,4 @@
-import { Button, Col, Input, message, Modal, Row } from 'antd';
+import { Button, Col, Input, message, Modal, Row, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { dispatchCustomEvent } from '../../../util/dom';
 import { DomainUser } from '../../Options/types';
@@ -29,6 +29,10 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
 
   const onCancel = function () {
     setShowSaveOpt(false);
+  };
+
+  const onGoOptionsPage = () => {
+    chrome.runtime.openOptionsPage();
   };
 
   const renderSaveOptions = function () {
@@ -74,18 +78,18 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
 
   return (
     <div className="save-container">
-      <Button type="primary" onClick={() => setShowSaveOpt(true)}>
-        保存当前cookie
-      </Button>
-      <Button
-        type="primary"
-        onClick={() => setShowImport(true)}
-        style={{
-          marginLeft: '10px',
-        }}
-      >
-        导入用户cookie
-      </Button>
+      <Space>
+        <Button type="primary" onClick={() => setShowSaveOpt(true)}>
+          保存当前cookie
+        </Button>
+        <Button type="primary" onClick={() => setShowImport(true)}>
+          导入用户cookie
+        </Button>
+        <Button onClick={onGoOptionsPage} danger type="primary">
+          管理
+        </Button>
+      </Space>
+
       {renderSaveOptions()}
       {showImport ? (
         <Modal

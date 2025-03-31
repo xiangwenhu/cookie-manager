@@ -1,12 +1,21 @@
-import { Checkbox, message, Modal, Popconfirm, Table, Typography } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Divider,
+  message,
+  Modal,
+  Popconfirm,
+  Table,
+  Typography,
+} from 'antd';
 import React, { Fragment, useState } from 'react';
 import { formatExpirationDate } from '../util';
 import './index.scss';
-import { DomainGroup, DomainUser } from '../types';
+import { CookieItem, DomainGroup, DomainUser } from '../types';
 import { addOrUpdateUser } from '../../Popup/util';
 import EditCookieItem from '../../../components/EditCookieItem';
 
-type Item = chrome.cookies.Cookie & {
+type Item = CookieItem & {
   key?: string;
 };
 
@@ -16,6 +25,19 @@ interface Props {
   onCancel(): void;
   group: DomainGroup;
 }
+
+const NewDefaultCookie: Item = {
+  domain: '',
+  name: '',
+  value: '',
+  session: false,
+  hostOnly: false,
+  expirationDate: undefined,
+  path: '/',
+  httpOnly: false,
+  secure: false,
+  sameSite: 'unspecified',
+};
 
 const CookieList: React.FC<Props> = ({
   user,
@@ -51,11 +73,19 @@ const CookieList: React.FC<Props> = ({
   };
 
   const onSaveCookieItem = (item: Item) => {
-    if (item && editInfo && data.cookies[editInfo.index]) {
-      data.cookies[editInfo.index] = item;
+    if (item && editInfo) {
+      if (editInfo.index >= 0 && data.cookies[editInfo.index]) {
+        // @ts-ignore
+        item.key = data.cookies[editInfo.index].key;
+        data.cookies[editInfo.index] = item;
+      } else if (editInfo.index === -1) {
+        item.key = `key-${performance.now()}-${data.cookies.length + 1}`;
+        data.cookies.push(item);
+      }
       data.cookies = [...data.cookies];
       setData({ ...data });
     }
+
     setEditInfo({
       showEditItem: false,
       item: undefined,
@@ -178,7 +208,7 @@ const CookieList: React.FC<Props> = ({
           pageSize: 1000,
           hideOnSinglePage: true,
         }}
-        // rowKey={(record: any) => `${record.key}`}
+        rowKey={(record: any) => `${record.key}`}
         className="ck-table"
         columns={columns}
       ></Table>
@@ -195,6 +225,23 @@ const CookieList: React.FC<Props> = ({
         onOk={onUpdateUser}
         onCancel={onCancel}
       >
+        <div style={{ textAlign: 'right' }}>
+          <Button
+            type="primary"
+            onClick={(_) =>
+              onToEditCookieItem(
+                {
+                  ...NewDefaultCookie,
+                  domain: group.domain,
+                },
+                -1
+              )
+            }
+          >
+            添加Cookie
+          </Button>
+        </div>
+        <Divider />
         <div className="cookie-list-x">{renderList()}</div>
       </Modal>
 

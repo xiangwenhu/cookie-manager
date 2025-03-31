@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { getCurrentActiveTab } from './tab';
+import { CookieItem } from '../pages/Options/types';
 
 /**
  * 获取全部的cookies
@@ -115,7 +116,7 @@ async function deleteCookie(url: string, name: string, store: string) {
 }
 
 export function cookieToSetDetails(
-  cookies: chrome.cookies.Cookie[],
+  cookies: CookieItem[],
   options: {
     url: string;
     storeId: string;
@@ -135,7 +136,7 @@ export function cookieToSetDetails(
 }
 
 export function setDetailsFromCookies(
-  cookies: chrome.cookies.Cookie[],
+  cookies: CookieItem[],
   options: {
     url: string;
     storeId: string;
@@ -146,7 +147,7 @@ export function setDetailsFromCookies(
 }
 
 export async function setDetailsByTab(
-  cookies: chrome.cookies.Cookie[],
+  cookies: CookieItem[],
   tab: chrome.tabs.Tab
 ) {
   const cookieStore = await getTabCookieStore(tab);
@@ -161,10 +162,10 @@ export async function setDetailsByTab(
   return true;
 }
 
-export function toJSONString(cookies: chrome.cookies.Cookie[]) {
+export function toJSONString(cookies: CookieItem[]) {
   let string = '';
   string += '[\n';
-  let cookie: chrome.cookies.Cookie;
+  let cookie: CookieItem;
   for (var i = 0; i < cookies.length; i++) {
     cookie = cookies[i];
     // cookie.id = i + 1;

@@ -1,4 +1,14 @@
-import { Button, Col, Input, message, Modal, Row, Space, Tooltip } from 'antd';
+import {
+  Button,
+  Col,
+  Input,
+  message,
+  Modal,
+  Popconfirm,
+  Row,
+  Space,
+  Tooltip,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import { dispatchCustomEvent } from '../../../util/dom';
 import { DomainUser } from '../../Options/types';
@@ -113,14 +123,16 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
         >
           管理
         </Button>
-        <Button
-          onClick={onClearTabCookies}
-          danger
-          type="primary"
-          title="清理当前Tab的cookie"
+        <Popconfirm
+          okText="确认"
+          cancelText="取消"
+          title="确认清理当前Tab的cookie嘛？"
+          onConfirm={onClearTabCookies}
         >
-          清理
-        </Button>
+          <Button danger type="primary" title="清理当前Tab的cookie">
+            清理
+          </Button>
+        </Popconfirm>
       </Space>
 
       {renderSaveOptions()}

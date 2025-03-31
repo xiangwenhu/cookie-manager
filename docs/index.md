@@ -1,4 +1,4 @@
-Cookie Manager Pro Privacy Policy
+Cookie Manager Chrome Extension Privacy Policy
 
 Last Updated: April 1, 2025
 

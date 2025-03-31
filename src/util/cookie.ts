@@ -23,6 +23,31 @@ export async function getCurrentPageCookies() {
   return getCookiesByTab(tab as chrome.tabs.Tab);
 }
 
+
+export async function clearCurrentActiveTabCookies() {
+  const tab = await getCurrentActiveTab();
+  return clearTabCookies(tab);
+}
+
+
+export async function clearTabCookies(tab: chrome.tabs.Tab | undefined) {
+  if (!tab || !tab.url) return;
+  const cookies = await getCookiesByTab(tab);
+  if (!cookies) return;
+
+  const cookieStore = await getTabCookieStore(tab);
+  if (!cookieStore) {
+    return
+  }
+
+  const details = cookieToSetDetails(cookies, {
+    url: tab.url,
+    storeId: cookieStore.id
+  });
+  return deleteAll(details, tab.url)
+}
+
+
 /**
  * 获取当前tab的cookieStore
  * @returns

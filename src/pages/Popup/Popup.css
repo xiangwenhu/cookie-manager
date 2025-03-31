@@ -4,8 +4,9 @@ body {
 
 .App {
   width: 666px;
-  height: 500px;
+  height: 520px;
   margin: auto;
+  padding-top: 8px;
 }
 
 .ellipsis {

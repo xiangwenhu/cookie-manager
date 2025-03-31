@@ -1,10 +1,11 @@
-import { Button, Col, Input, message, Modal, Row, Space } from 'antd';
+import { Button, Col, Input, message, Modal, Row, Space, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { dispatchCustomEvent } from '../../../util/dom';
 import { DomainUser } from '../../Options/types';
 import ImportUser from '../ImportUser';
 import { saveCookieByTabAndName } from '../util';
 import './index.css';
+import { clearTabCookies } from '../../../util/cookie';
 
 const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
   const [showSaveOpt, setShowSaveOpt] = useState(false);
@@ -33,6 +34,18 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
 
   const onGoOptionsPage = () => {
     chrome.runtime.openOptionsPage();
+  };
+
+  const onClearTabCookies = async () => {
+    try {
+      await clearTabCookies(curTab);
+      message.success('清除完毕');
+      // window.location.reload();
+      if (!curTab.id) return;
+      chrome.tabs.reload(curTab.id);
+    } catch (err: any) {
+      message.error(`保存失败: ${err?.message}`);
+    }
   };
 
   const renderSaveOptions = function () {
@@ -79,14 +92,34 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
   return (
     <div className="save-container">
       <Space>
-        <Button type="primary" onClick={() => setShowSaveOpt(true)}>
-          保存当前cookie
+        <Button
+          type="primary"
+          onClick={() => setShowSaveOpt(true)}
+          title="保存当前Tab的cookie"
+        >
+          保存
         </Button>
-        <Button type="primary" onClick={() => setShowImport(true)}>
-          导入用户cookie
+        <Button
+          type="primary"
+          onClick={() => setShowImport(true)}
+          title="导入用户的cookie"
+        >
+          导入
         </Button>
-        <Button onClick={onGoOptionsPage} danger type="primary">
+        <Button
+          onClick={onGoOptionsPage}
+          type="primary"
+          title="管理全部的cookie"
+        >
           管理
+        </Button>
+        <Button
+          onClick={onClearTabCookies}
+          danger
+          type="primary"
+          title="清理当前Tab的cookie"
+        >
+          清理
         </Button>
       </Space>
 

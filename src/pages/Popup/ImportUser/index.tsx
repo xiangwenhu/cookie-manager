@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { addOrUpdateUser } from '../util';
 import { dispatchCustomEvent } from '../../../util/dom';
 import { getDomainFromUrl } from '../../../util';
+import { useForm } from 'antd/es/form/Form';
 
 interface Props {
   onSuccess(): void;
@@ -16,14 +17,34 @@ const styles: Record<'formItem', React.CSSProperties> = {
   },
 };
 
+interface FormData {
+  name: string;
+  cookies: string;
+  changeDomain: boolean;
+  domain: string;
+}
+
 export default function ImportUser(props: Props) {
-  const onFinish = async (values: any) => {
+  const [form] = useForm();
+
+  const formData: FormData = Form.useWatch([], form);
+
+  const onFinish = async (values: FormData) => {
     try {
       // message.info(JSON.stringify(values));
       console.log('ImportUser values:', values);
+
+      const cookies: chrome.cookies.Cookie[] = JSON.parse(values.cookies);
+
+      if (values.changeDomain) {
+        cookies.forEach((c) => {
+          c.domain = values.domain;
+        });
+      }
+
       const user = {
         name: values.name.trim(),
-        cookies: JSON.parse(values.cookies),
+        cookies,
         updateTime: Date.now(),
       };
       // 保存
@@ -45,8 +66,9 @@ export default function ImportUser(props: Props) {
         span: 4,
       }}
       wrapperCol={{
-        span: 16,
+        span: 18,
       }}
+      form={form}
     >
       <Form.Item
         name="name"
@@ -77,6 +99,18 @@ export default function ImportUser(props: Props) {
         ]}
       >
         <Input />
+      </Form.Item>
+      <Form.Item
+        label="更改域名"
+        name="changeDomain"
+        required
+        style={styles.formItem}
+        valuePropName="checked"
+      >
+        <Checkbox>
+          更改cookie域名为 &nbsp;
+          <span style={{ color: 'red' }}>{formData?.domain || ''}</span>
+        </Checkbox>
       </Form.Item>
       <Form.Item
         name="cookies"

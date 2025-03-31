@@ -45,7 +45,7 @@ const SaveCookie = ({ curTab }: { curTab: chrome.tabs.Tab }) => {
           <Col className="field" span={9}>
             <Input
               maxLength={50}
-              placeholder='输入名字, 名字存在会覆盖！'
+              placeholder="输入名字, 名字存在会覆盖！"
               onChange={(ev) => setName(ev.target.value)}
               value={name}
             ></Input>
